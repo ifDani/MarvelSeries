@@ -16,12 +16,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.marvelseries.R
+import com.example.marvelseries.util.DataHolder
 import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
     navController: NavController,
-    splashViewModel: SplashScreenViewModel = hiltViewModel()
+    splashViewModel: SplashViewModel = hiltViewModel()
     ) {
         val scale = remember { androidx.compose.animation.core.Animatable(0f) }
         //Scale effect on load splash
@@ -36,7 +37,10 @@ fun SplashScreen(
             while (splashViewModel.somethingLoading.value) {
                 delay(300)
             }
-            navController.navigate("account_stats_screen")
+
+
+            DataHolder.argument = splashViewModel.characterList
+            navController.navigate("characters_screen")
         }
 
         // Image

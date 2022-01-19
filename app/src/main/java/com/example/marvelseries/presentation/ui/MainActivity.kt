@@ -17,6 +17,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.marvelseries.presentation.ui.characters.CharactersScreen
 import com.example.marvelseries.presentation.ui.splash.SplashScreen
 import com.example.marvelseries.presentation.ui.theme.MarvelSeriesTheme
 import com.google.accompanist.insets.ProvideWindowInsets
@@ -63,9 +64,14 @@ fun Navigation(navController: NavHostController) {
         composable("splash_screen") {
             SplashScreen(navController = navController)
         }
-
+        composable("characters_screen") {
+            CharactersScreen(
+                navController = navController,
+            )
+        }
     }
 }
+
 @Composable
 fun Greeting(name: String) {
     Text(text = "Hello $name!")
