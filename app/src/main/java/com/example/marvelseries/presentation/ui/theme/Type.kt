@@ -1,4 +1,4 @@
-package com.example.marvelseries.ui.theme
+package com.example.marvelseries.presentation.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
