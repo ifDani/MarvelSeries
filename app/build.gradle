@@ -10,7 +10,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.example.marvelseries"
+        applicationId "com.ifDani.marvelseries"
         minSdk 23
         targetSdk 31
         versionCode 1
@@ -41,7 +41,6 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
-        kotlinCompilerVersion '1.5.21'
     }
     packagingOptions {
         resources {
@@ -71,6 +70,9 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:2.4.0-rc01"
     implementation "com.google.accompanist:accompanist-flowlayout:0.20.0"
 
+    //UI Controller
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
+
     //Dagger - Hilt -> Dependency Injection
     implementation "com.google.dagger:hilt-android:2.38.1"
     kapt "com.google.dagger:hilt-android-compiler:2.38.1"
@@ -93,4 +95,8 @@ dependencies {
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0-native-mt'
+
+    //Padding insets
+    implementation "com.google.accompanist:accompanist-insets-ui:0.15.0"
+
 }
