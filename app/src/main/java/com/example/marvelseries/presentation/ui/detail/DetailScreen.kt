@@ -46,7 +46,7 @@ fun DetailScreen(
 //    }
 
     VerticalPager(count = 2, state = state) { page ->
-        // Our page content
+
         when (page) {
             0 -> contentPage(coroutineScope, state)
             1 -> comicsPage(coroutineScope, state)
@@ -104,13 +104,14 @@ fun contentPage(coroutineScope: CoroutineScope, state: PagerState) {
                 text = "SPIDER-MAN",
                 style = nameHeroDetail,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)
             )
-            Text(text = "Descripción", style = sectionHeroTitle)
+            Text(text = "Descripción", style = sectionHeroTitle, modifier = Modifier.padding(bottom = 10.dp))
             Text(
                 text = "Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since.",
                 style = descHeroDetail(),
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Start,
+                modifier = Modifier.padding(bottom = 20.dp)
             )
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -119,12 +120,11 @@ fun contentPage(coroutineScope: CoroutineScope, state: PagerState) {
                     .fillMaxWidth()
             ) {
 
-                Text(text = "Pelis / Series", style = sectionHeroTitle)
+                Text(text = "Pelis / Series", style = sectionHeroTitle, modifier = Modifier.padding(bottom = 15.dp))
                 Text(text = "Ver más", style = descHeroDetail(Color(0xFFCACACA)))
 
             }
-//            modifier =  Modifier.horizontalScroll(rememberScrollState())
-//            ,contentPadding = PaddingValues(bottom = 50.dp)
+
             LazyRow(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -194,15 +194,13 @@ fun comicsPage(coroutineScope: CoroutineScope, state: PagerState) {
                 )
 
                 HorizontalPager(
-                    count = 2,
+                    count = 6,
                     state = stateHorizontal,
                     contentPadding = PaddingValues(horizontal = 32.dp)
                 ) { page ->
-                    // Our page content
-                    when (page) {
-                        0 -> ComicItem(image = "", name = "")
-                        1 -> ComicItem(image = "", name = "")
-                    }
+
+                    //TODO: call list element index using currentPage
+                    ComicItem(image = "", name = "")
 
                 }
             }

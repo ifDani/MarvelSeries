@@ -39,7 +39,7 @@ val attrCharList = TextStyle(
 //Detail Styles
 val nameHeroDetail = TextStyle(
     fontFamily = FontFamily(Font(R.font.marvel_bold)),
-    fontSize = 42.sp,
+    fontSize = 50.sp,
     color = Color.White
 )
 val sectionHeroTitle = TextStyle(
