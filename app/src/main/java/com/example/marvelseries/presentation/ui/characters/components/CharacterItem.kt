@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
+import coil.transform.RoundedCornersTransformation
 import com.example.marvelseries.domain.model.CharactersResponse
 import com.example.marvelseries.presentation.ui.theme.attrCharList
 import com.example.marvelseries.presentation.ui.theme.nameCharacter
@@ -27,10 +28,23 @@ fun CharacterItem(character: CharactersResponse.Data.Result) {
         .clip(RoundedCornerShape(10.dp))
         .aspectRatio(1f)) {
 
-        Image(painter = rememberImagePainter(data = "${character.thumbnail.path}.${character.thumbnail.extension}"),contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize(), contentDescription = null )
+        //Shadow Card
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 3.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .background(Color(0xFF32C741))
+        )
 
+        //Main Hero image
+        Image(painter = rememberImagePainter(data = "${character.thumbnail.path}.${character.thumbnail.extension}", builder = {transformations(RoundedCornersTransformation(bottomRight = 30f, bottomLeft = 25f, topRight = 30f))}),contentScale = ContentScale.Crop, modifier = Modifier.padding(bottom = 5.dp, end = 5.dp).fillMaxSize(), contentDescription = null )
+
+        //Content info
         Column(modifier = Modifier
+            .padding(bottom = 5.dp, end = 5.dp)
             .fillMaxSize()
+            .clip(RoundedCornerShape(10.dp))
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
