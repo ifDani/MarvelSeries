@@ -3,6 +3,8 @@ package com.example.marvelseries.data.repository
 import com.example.marvelseries.data.remote.MarvelApi
 import com.example.marvelseries.domain.model.CharacterDetailResponse
 import com.example.marvelseries.domain.model.CharactersResponse
+import com.example.marvelseries.domain.model.ComicsResponse
+import com.example.marvelseries.domain.model.SeriesResponse
 import com.example.marvelseries.util.Constants.PRIVATE_API_KEY
 import com.example.marvelseries.util.Constants.PUBLIC_API_KEY
 import com.example.marvelseries.util.Resource
@@ -57,6 +59,37 @@ class MarvelRepository @Inject constructor(private val repository: MarvelApi) {
             emit(Resource.Error("Couldn't reach server. Check your internet connection"))
         }
     }
+
+    fun getCharacterComics(characterId: Int): Flow<Resource<ArrayList<ComicsResponse.Data.Result>>> = flow {
+        try {
+            emit(Resource.Loading())
+            val hash = generateHash()
+            val heroDetail = repository.getCharacterComics(ts = currentTimeStamp, apiKey = PUBLIC_API_KEY, hash = hash, characterId = characterId)
+
+            emit(Resource.Success(heroDetail.data.results))
+        } catch (e: HttpException) {
+            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred ${e.code()}"))
+
+        } catch (e: IOException) {
+            emit(Resource.Error("Couldn't reach server. Check your internet connection"))
+        }
+    }
+
+    fun getCharacterSeries(characterId: Int): Flow<Resource<ArrayList<SeriesResponse.Data.Result>>> = flow {
+        try {
+            emit(Resource.Loading())
+            val hash = generateHash()
+            val heroDetail = repository.getCharacterSeries(ts = currentTimeStamp, apiKey = PUBLIC_API_KEY, hash = hash, characterId = characterId)
+
+            emit(Resource.Success(heroDetail.data.results))
+        } catch (e: HttpException) {
+            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred ${e.code()}"))
+
+        } catch (e: IOException) {
+            emit(Resource.Error("Couldn't reach server. Check your internet connection"))
+        }
+    }
+
 
     fun generateHash(): String {
         currentTimeStamp = System.currentTimeMillis().toString()

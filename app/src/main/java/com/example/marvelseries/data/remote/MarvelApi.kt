@@ -2,6 +2,8 @@ package com.example.marvelseries.data.remote
 
 import com.example.marvelseries.domain.model.CharacterDetailResponse
 import com.example.marvelseries.domain.model.CharactersResponse
+import com.example.marvelseries.domain.model.ComicsResponse
+import com.example.marvelseries.domain.model.SeriesResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -24,5 +26,21 @@ interface MarvelApi {
         @Query("hash") hash: String
 
     ): CharacterDetailResponse
+
+    @GET("characters/{characterId}/comics")
+    suspend fun getCharacterComics(
+        @Path("characterId") characterId: Int,
+        @Query("ts") ts: String,
+        @Query("apikey") apiKey: String,
+        @Query("hash") hash: String
+    ): ComicsResponse
+
+    @GET("characters/{characterId}/series")
+    suspend fun getCharacterSeries(
+        @Path("characterId") characterId: Int,
+        @Query("ts") ts: String,
+        @Query("apikey") apiKey: String,
+        @Query("hash") hash: String
+    ): SeriesResponse
 
 }
