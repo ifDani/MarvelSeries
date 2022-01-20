@@ -2,9 +2,17 @@ package com.example.marvelseries.presentation.ui.detail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -16,38 +24,57 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.marvelseries.R
+import com.example.marvelseries.presentation.ui.detail.components.ComicItem
 import com.example.marvelseries.presentation.ui.theme.descHeroDetail
 import com.example.marvelseries.presentation.ui.theme.nameHeroDetail
 import com.example.marvelseries.presentation.ui.theme.sectionHeroTitle
+import com.google.accompanist.pager.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
+@ExperimentalPagerApi
 @Composable
 fun DetailScreen(
     navController: NavController,
     detailViewModel: DetailViewModel = hiltViewModel()
 ) {
+    val state = rememberPagerState()
+    val coroutineScope = rememberCoroutineScope()
 
-//
-//    if (!detailViewModel.isLoading.value) {
-//        Log.v("miapp","esto pasa ${detailViewModel.heroDetail?.value?.name}")
-//        Text(text = detailViewModel.heroDetail?.value?.name ?: "", style = example )
-//
+//    LaunchedEffect(key1 = true) {
+//        detailViewModel.getDetailHero()
 //    }
-//        Image(painter = ", builder = {transformations(
-//            RoundedCornersTransformation(bottomRight = 30f, bottomLeft = 25f, topRight = 30f)
-//        )}),contentScale = ContentScale.Crop, modifier = Modifier
-//            .padding(bottom = 5.dp, end = 5.dp)
-//            .fillMaxSize(), contentDescription = null )
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(
-            brush = Brush.verticalGradient(
-                colors = listOf(
-                    Color.Transparent,
-                    Color.Black.copy(alpha = 0.5f),
-                    Color.Black.copy(alpha = 0.8f),
+
+    VerticalPager(count = 2, state = state) { page ->
+        // Our page content
+        when (page) {
+            0 -> contentPage(coroutineScope, state)
+            1 -> comicsPage(coroutineScope, state)
+        }
+
+    }
+
+
+}
+
+@ExperimentalPagerApi
+@Composable
+fun contentPage(coroutineScope: CoroutineScope, state: PagerState) {
+    val interactionSource2 = remember { MutableInteractionSource() }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        Color.Transparent,
+                        Color.Black.copy(alpha = 0.5f),
+                        Color.Black.copy(alpha = 0.8f),
+                    )
                 )
             )
-        )) {
+    ) {
 
         Image(
             painter = painterResource(id = R.drawable.test),
@@ -72,20 +99,118 @@ fun DetailScreen(
                 .padding(horizontal = 28.dp),
             verticalArrangement = Arrangement.Bottom,
 
-        ) {
-            Text(text = "SPIDERMAN", style = nameHeroDetail,textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+            ) {
+            Text(
+                text = "SPIDER-MAN",
+                style = nameHeroDetail,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
             Text(text = "Descripción", style = sectionHeroTitle)
-            Text(text = "Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since.", style = descHeroDetail(),textAlign = TextAlign.Start)
-            Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Bottom,modifier = Modifier
-                .fillMaxWidth()) {
+            Text(
+                text = "Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since.",
+                style = descHeroDetail(),
+                textAlign = TextAlign.Start
+            )
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Bottom,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+
                 Text(text = "Pelis / Series", style = sectionHeroTitle)
                 Text(text = "Ver más", style = descHeroDetail(Color(0xFFCACACA)))
-            }
 
+            }
+//            modifier =  Modifier.horizontalScroll(rememberScrollState())
+//            ,contentPadding = PaddingValues(bottom = 50.dp)
+            LazyRow(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(8) {
+                    Image(
+                        painter = painterResource(id = R.drawable.test),
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .height(100.dp)
+                            .width(65.dp),
+                        contentDescription = null
+                    )
+                }
+            }
+            Row(horizontalArrangement = Arrangement.Center, modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp)
+                .clickable(interactionSource = interactionSource2, indication = null) {
+                    coroutineScope.launch {
+                        state.animateScrollToPage(1)
+                    }
+                }) {
+                Icon(Icons.Default.KeyboardArrowDown, contentDescription = null, tint = Color.White)
+            }
         }
 
     }
-    
-
-
 }
+
+@ExperimentalPagerApi
+@Composable
+fun comicsPage(coroutineScope: CoroutineScope, state: PagerState) {
+    val stateHorizontal = rememberPagerState()
+    val coroutineScopeHorizontal = rememberCoroutineScope()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        Color.Black.copy(alpha = 1f),
+                        Color.Black.copy(alpha = 0.93f),
+                        Color.Transparent,
+                    )
+                )
+            ),
+        verticalArrangement = Arrangement.Center,
+
+        ) {
+        Box {
+
+            Image(
+                painter = painterResource(id = R.drawable.bg_comics),
+                contentDescription = "",
+                modifier = Modifier.fillMaxSize()
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                Text(
+                    text = "COMICS", style = nameHeroDetail, modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 70.dp)
+                )
+
+                HorizontalPager(
+                    count = 2,
+                    state = stateHorizontal,
+                    contentPadding = PaddingValues(horizontal = 32.dp)
+                ) { page ->
+                    // Our page content
+                    when (page) {
+                        0 -> ComicItem(image = "", name = "")
+                        1 -> ComicItem(image = "", name = "")
+                    }
+
+                }
+            }
+
+
+        }
+    }
+}
+
+
+        

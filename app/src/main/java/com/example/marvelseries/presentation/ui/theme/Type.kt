@@ -55,7 +55,12 @@ fun descHeroDetail(color: Color = Color.White): TextStyle {
     )
 }
 
-
+//Comic Styles
+val comicNameStyle = TextStyle(
+    fontFamily = FontFamily(Font(R.font.marvel_bold)),
+    fontSize = 38.sp,
+    color = Color.White
+)
 val example = TextStyle(
     fontFamily = FontFamily(Font(R.font.marvel_bold)),
     fontSize = 14.sp,

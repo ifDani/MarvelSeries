@@ -2,7 +2,6 @@ package com.example.marvelseries.presentation.ui
 
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -25,12 +24,14 @@ import com.example.marvelseries.presentation.ui.detail.DetailScreen
 import com.example.marvelseries.presentation.ui.splash.SplashScreen
 import com.example.marvelseries.presentation.ui.theme.MarvelSeriesTheme
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 
 //To enable dependency Injection in all hierarchy of the activity
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @ExperimentalPagerApi
     @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +59,7 @@ class MainActivity : ComponentActivity() {
 }
 
 //Handle Navigation
+@ExperimentalPagerApi
 @ExperimentalFoundationApi
 @Composable
 fun Navigation(navController: NavHostController) {
