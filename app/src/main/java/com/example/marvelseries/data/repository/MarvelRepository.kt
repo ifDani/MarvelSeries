@@ -16,11 +16,11 @@ import javax.inject.Inject
 class MarvelRepository @Inject constructor(private val repository: MarvelApi) {
     var currentTimeStamp = ""
 
-    fun getCharacters(): Flow<Resource<ArrayList<CharactersResponse.Data.Result>>> = flow {
+    fun getCharacters(offset: Int = 0): Flow<Resource<ArrayList<CharactersResponse.Data.Result>>> = flow {
         try {
             emit(Resource.Loading())
             val hash = generateHash()
-            val characters = repository.getCharacters(ts = currentTimeStamp, apiKey = PUBLIC_API_KEY, hash = hash)
+            val characters = repository.getCharacters(ts = currentTimeStamp, apiKey = PUBLIC_API_KEY, hash = hash, offset = offset)
             //Emit response
 
             emit(Resource.Success(characters.data.results))

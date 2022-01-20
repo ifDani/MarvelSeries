@@ -1,5 +1,6 @@
 package com.example.marvelseries.presentation.ui.characters
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -17,37 +18,38 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CharactersViewModel @Inject constructor(private val repository: MarvelRepository) : ViewModel() {
-    val somethingLoading: MutableState<Boolean> = mutableStateOf(true)
+    val isLoading: MutableState<Boolean> = mutableStateOf(false)
     var characterList:SnapshotStateList<CharactersResponse.Data.Result> = mutableStateListOf()
-
+    var offset = 20
     init {
         try {
             characterList.addAll(DataHolder.argument as ArrayList<CharactersResponse.Data.Result>)
             DataHolder.argument = null
         } catch (e: Exception) {
-//            somethingLoading.value = false
+            Log.e("Error", "$e" )
         }
     }
 
-    //Called when SwipeToRefresh
+    //Called when pagination
     fun getCharacters() {
+        isLoading.value = true
         viewModelScope.launch(Dispatchers.Main) {
-            repository.getCharacters().collect { result ->
+            repository.getCharacters(offset = offset).collect { result ->
                 when (result) {
                     is Resource.Success -> {
 
                         result.data?.let {
-                            characterList.clear()
                             characterList.addAll(it)
                         }
-                        somethingLoading.value = false
+
+                        isLoading.value = false
 
                     }
                     is Resource.Loading -> {
-                        somethingLoading.value = true
+                        isLoading.value = true
                     }
                     is Resource.Error -> {
-                        somethingLoading.value = false
+                        isLoading.value = false
 //                        Toast.makeText(App.instance, "No hay datos", Toast.LENGTH_SHORT).show()
                     }
                 }

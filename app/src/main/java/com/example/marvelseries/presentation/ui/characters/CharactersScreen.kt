@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -35,10 +35,24 @@ fun CharactersScreen(
         Text(text = "Menu", style = titleStyle, modifier = Modifier.padding(top = 48.dp, bottom = 10.dp))
 
         LazyVerticalGrid(cells = GridCells.Fixed(2), contentPadding = PaddingValues(vertical = 8.dp, horizontal = 5.dp)) {
-
-            items(items = charactersViewModel.characterList) { item ->
+            itemsIndexed(items = charactersViewModel.characterList) { index, item ->
                 CharacterItem(item)
+
+                if (index > charactersViewModel.offset - 6) {
+                    charactersViewModel.getCharacters()
+                    charactersViewModel.offset += 20
+                }
+
             }
+            //TODO: Center CircularProgress in Grid to advise user we are loading more data
+//            if (charactersViewModel.isLoading.value) {
+//                item {
+//                    Box(modifier = Modifier.fillMaxSize()){
+//                        CircularProgressIndicator()
+//                    }
+//                }
+//            }
+
         }
         
 
