@@ -36,7 +36,9 @@ fun CharactersScreen(
 
         LazyVerticalGrid(cells = GridCells.Fixed(2), contentPadding = PaddingValues(vertical = 8.dp, horizontal = 5.dp)) {
             itemsIndexed(items = charactersViewModel.characterList) { index, item ->
-                CharacterItem(item)
+                CharacterItem(item, click = {
+                    navController.navigate("characters_screen")
+                })
 
                 if (index > charactersViewModel.offset - 6) {
                     charactersViewModel.getCharacters()
