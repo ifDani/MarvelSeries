@@ -18,6 +18,7 @@ import coil.transform.RoundedCornersTransformation
 import com.example.marvelseries.domain.model.CharactersResponse
 import com.example.marvelseries.presentation.ui.theme.attrCharList
 import com.example.marvelseries.presentation.ui.theme.nameCharacter
+import java.util.*
 
 @Composable
 fun CharacterItem(character: CharactersResponse.Data.Result) {
@@ -34,11 +35,13 @@ fun CharacterItem(character: CharactersResponse.Data.Result) {
                 .fillMaxSize()
                 .padding(start = 3.dp)
                 .clip(RoundedCornerShape(10.dp))
-                .background(Color(0xFF32C741))
+                .background(Color(getRandomColor()))
         )
 
         //Main Hero image
-        Image(painter = rememberImagePainter(data = "${character.thumbnail.path}.${character.thumbnail.extension}", builder = {transformations(RoundedCornersTransformation(bottomRight = 30f, bottomLeft = 25f, topRight = 30f))}),contentScale = ContentScale.Crop, modifier = Modifier.padding(bottom = 5.dp, end = 5.dp).fillMaxSize(), contentDescription = null )
+        Image(painter = rememberImagePainter(data = "${character.thumbnail.path}.${character.thumbnail.extension}", builder = {transformations(RoundedCornersTransformation(bottomRight = 30f, bottomLeft = 25f, topRight = 30f))}),contentScale = ContentScale.Crop, modifier = Modifier
+            .padding(bottom = 5.dp, end = 5.dp)
+            .fillMaxSize(), contentDescription = null )
 
         //Content info
         Column(modifier = Modifier
@@ -53,8 +56,12 @@ fun CharacterItem(character: CharactersResponse.Data.Result) {
                         Color.Black.copy(alpha = 0.8f),
                     )
                 )
-            ).padding(horizontal = 10.dp).padding(bottom = 5.dp)) {
-            Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Bottom, modifier = Modifier.weight(1f).fillMaxWidth()) {
+            )
+            .padding(horizontal = 10.dp)
+            .padding(bottom = 5.dp)) {
+            Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Bottom, modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()) {
                 Text(text = "Pelis: ${character.series.items.size}", style = attrCharList)
                 Text(text = "Comics: ${character.comics.items.size}", style = attrCharList)
 
@@ -62,4 +69,9 @@ fun CharacterItem(character: CharactersResponse.Data.Result) {
             Text(text = character.name, style = nameCharacter)
         }
     }
+
+}
+fun getRandomColor(): Int {
+    val rnd = Random()
+    return android.graphics.Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
 }
