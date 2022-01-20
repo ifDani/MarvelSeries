@@ -2,6 +2,7 @@ package com.example.marvelseries.presentation.ui
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -14,10 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.marvelseries.presentation.ui.characters.CharactersScreen
+import com.example.marvelseries.presentation.ui.detail.DetailScreen
 import com.example.marvelseries.presentation.ui.splash.SplashScreen
 import com.example.marvelseries.presentation.ui.theme.MarvelSeriesTheme
 import com.google.accompanist.insets.ProvideWindowInsets
@@ -68,6 +72,15 @@ fun Navigation(navController: NavHostController) {
             CharactersScreen(
                 navController = navController,
             )
+        }
+        composable("detail/{id}",
+            arguments = listOf(
+                navArgument("id") {
+                    type = NavType.IntType
+                }
+            )) {
+
+            DetailScreen(navController = navController)
         }
     }
 }

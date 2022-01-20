@@ -16,13 +16,13 @@ interface MarvelApi {
         @Query("offset") offset: Int = 0
     ): CharactersResponse
 
-//    "${System.currentTimeMillis()}5ed46ef9028ad9bb7350ac291b71cabf3905470111dcdd67a46ecc742f688671dd054631"
     @GET("characters/{characterId}")
     suspend fun getCharacterById(
+        @Path("characterId") characterId: Int,
         @Query("ts") ts: String,
         @Query("apikey") apiKey: String,
-        @Query("hash") hash: String,
-        @Path("characterId") characterId: String
+        @Query("hash") hash: String
+
     ): CharacterDetailResponse
 
 }

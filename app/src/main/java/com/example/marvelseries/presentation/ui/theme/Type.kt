@@ -18,20 +18,6 @@ val Typography = Typography(
         color = Color.White
     ),
 
-
-
-    /* Other default text styles to override
-    button = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.W500,
-        fontSize = 14.sp
-    ),
-    caption = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
-    )
-    */
 )
 val titleStyle = TextStyle(
     fontFamily = FontFamily(Font(R.font.marvel_bold)),
@@ -47,4 +33,31 @@ val attrCharList = TextStyle(
     fontFamily = FontFamily(Font(R.font.marvel_bold)),
     fontSize = 14.sp,
     color = Color.White
+)
+
+
+//Detail Styles
+val nameHeroDetail = TextStyle(
+    fontFamily = FontFamily(Font(R.font.marvel_bold)),
+    fontSize = 42.sp,
+    color = Color.White
+)
+val sectionHeroTitle = TextStyle(
+    fontFamily = FontFamily(Font(R.font.marvel_bold)),
+    fontSize = 26.sp,
+    color = Color.White
+)
+fun descHeroDetail(color: Color = Color.White): TextStyle {
+   return TextStyle(
+        fontFamily = FontFamily(Font(R.font.marvel_bold)),
+        fontSize = 18.sp,
+        color = color
+    )
+}
+
+
+val example = TextStyle(
+    fontFamily = FontFamily(Font(R.font.marvel_bold)),
+    fontSize = 14.sp,
+    color = Color.Black
 )
