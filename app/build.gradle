@@ -99,4 +99,7 @@ dependencies {
     //Padding insets
     implementation "com.google.accompanist:accompanist-insets-ui:0.15.0"
 
+
+    implementation 'androidx.palette:palette:1.0.0'
+
 }
