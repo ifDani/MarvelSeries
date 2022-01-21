@@ -3,6 +3,7 @@ package com.example.marvelseries.presentation.ui.characters
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -78,8 +79,10 @@ fun CharactersScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier
                         .clickable(onClick = { expanded = true })
+                        .border(1.dp, Color.White)
                         .clip(RoundedCornerShape(8.dp))
-                        .background(Color(0xff261858))
+
+
                         .padding(vertical = 10.dp, horizontal = 8.dp)
                 ) {
 
@@ -93,7 +96,8 @@ fun CharactersScreen(
                     Icon(
                         Icons.Default.ArrowDropDown,
                         contentDescription = "",
-                        modifier = if (expanded) Modifier.rotate(180f) else Modifier
+                        modifier = if (expanded) Modifier.rotate(180f) else Modifier,
+                        tint = Color.White
                     )
 
                 }
