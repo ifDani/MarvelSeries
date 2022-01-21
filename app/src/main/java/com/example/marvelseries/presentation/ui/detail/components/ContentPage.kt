@@ -71,50 +71,52 @@ fun ContentPage(
                             Color.Black.copy(alpha = 1f),
                         )
                     )
-                )
-                .padding(horizontal = 28.dp),
+                ),
             verticalArrangement = Arrangement.Bottom,
         ) {
-            Text(
-                text = heroDetail.name,
-                style = nameHeroDetail,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 20.dp)
-            )
-            Text(
-                text = stringResource(R.string.description),
-                style = sectionHeroTitle,
-                modifier = Modifier.padding(bottom = 10.dp)
-            )
-            Text( //I could hide the description field, but I put no description
-                text = if (heroDetail.description.isEmpty()) stringResource(R.string.no_desc) else heroDetail.description,
-                style = descHeroDetail(),
-                textAlign = TextAlign.Start, color = Color.White,
-                modifier = Modifier.padding(bottom = 20.dp)
-            )
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(text = stringResource(R.string.movies_series), style = sectionHeroTitle)
-                Text(text = stringResource(R.string.see_more),
-                    style = descHeroDetail(Color(0xFFCACACA)),
+            Column(modifier = Modifier.padding(horizontal = 28.dp)) {
+                Text(
+                    text = heroDetail.name,
+                    style = nameHeroDetail,
+                    textAlign = TextAlign.Center,
                     modifier = Modifier
-                        .padding(vertical = 15.dp)
-                        .clickable {
-                            //TODO NAVIGATE TO THE MOVIES LIST
-                        })
+                        .fillMaxWidth()
+                        .padding(bottom = 20.dp)
+                )
+                Text(
+                    text = stringResource(R.string.description),
+                    style = sectionHeroTitle,
+                    modifier = Modifier.padding(bottom = 10.dp)
+                )
+                Text( //I could hide the description field, but I put no description
+                    text = if (heroDetail.description.isEmpty()) stringResource(R.string.no_desc) else heroDetail.description,
+                    style = descHeroDetail(),
+                    textAlign = TextAlign.Start, color = Color.White,
+                    modifier = Modifier.padding(bottom = 20.dp)
+                )
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = stringResource(R.string.movies_series), style = sectionHeroTitle)
+                    Text(text = stringResource(R.string.see_more),
+                        style = descHeroDetail(Color(0xFFCACACA)),
+                        modifier = Modifier
+                            .padding(vertical = 15.dp)
+                            .clickable {
+                                //TODO NAVIGATE TO THE MOVIES LIST
+                            })
+                }
             }
+
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState())
+                    .horizontalScroll(rememberScrollState()).padding(horizontal = 10.dp)
             ) {
                 series.forEach { item ->
                     Image(
@@ -129,10 +131,7 @@ fun ContentPage(
                         modifier = Modifier
                             .height(100.dp)
                             .width(65.dp)
-                            .padding(start = 8.dp)
-                            .clickable {
-                                //TODO NAVIGATE TO THE MOVIES LIST
-                            },
+                            .padding(horizontal = 4.dp),
                         contentDescription = null
                     )
                 }
