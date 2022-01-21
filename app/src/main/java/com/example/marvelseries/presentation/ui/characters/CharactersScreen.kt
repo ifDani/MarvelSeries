@@ -1,8 +1,10 @@
 package com.example.marvelseries.presentation.ui.characters
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
@@ -27,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.marvelseries.presentation.ui.characters.components.CharacterItem
 import com.example.marvelseries.presentation.ui.theme.titleStyle
+import kotlin.system.exitProcess
 
 @ExperimentalFoundationApi
 @Composable
@@ -43,7 +46,11 @@ fun CharactersScreen(
     )
     var expanded by remember { mutableStateOf(false) }
     var selectedIndex by remember { mutableStateOf(0) }
+    val interactionSource2 = remember { MutableInteractionSource() }
 
+    BackHandler() {
+        exitProcess(0)
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -53,14 +60,18 @@ fun CharactersScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 48.dp, bottom = 10.dp),
+                .padding(top = 48.dp)
+                .clickable(interactionSource = interactionSource2, indication = null) {
+
+                },
             verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
-            Text(text = "Menu", style = titleStyle)
+            Text(text = "Menu", style = titleStyle, modifier= Modifier.padding( bottom = 15.dp))
 
-            Box(modifier = Modifier.fillMaxWidth(0.5f)
+            Box(
+                modifier = Modifier.fillMaxWidth(0.5f).padding( bottom = 15.dp)
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -79,7 +90,11 @@ fun CharactersScreen(
                         overflow = TextOverflow.Ellipsis,
                         fontSize = 13.sp
                     )
-                    Icon(Icons.Default.ArrowDropDown, contentDescription = "", modifier = if (expanded) Modifier.rotate(180f) else Modifier)
+                    Icon(
+                        Icons.Default.ArrowDropDown,
+                        contentDescription = "",
+                        modifier = if (expanded) Modifier.rotate(180f) else Modifier
+                    )
 
                 }
                 DropdownMenu(
@@ -105,14 +120,20 @@ fun CharactersScreen(
         }
 
 
-        LazyVerticalGrid(cells = GridCells.Fixed(2), contentPadding = PaddingValues(vertical = 8.dp, horizontal = 5.dp)) {
+        LazyVerticalGrid(
+            cells = GridCells.Fixed(2),
+            contentPadding = PaddingValues(vertical = 8.dp, horizontal = 5.dp)
+        ) {
             itemsIndexed(items = charactersViewModel.characterList) { index, item ->
                 CharacterItem(item, click = {
                     navController.navigate("detail/${item.id}")
                 })
 
                 if (index > charactersViewModel.offset - 6) {
-                    charactersViewModel.getCharacters(false, if (selectedIndex <= 0) 0 else (selectedIndex -1))
+                    charactersViewModel.getCharacters(
+                        false,
+                        if (selectedIndex <= 0) 0 else (selectedIndex - 1)
+                    )
                     charactersViewModel.offset += 20
                 }
 
@@ -127,7 +148,7 @@ fun CharactersScreen(
 //            }
 
         }
-        
+
 
     }
 }
