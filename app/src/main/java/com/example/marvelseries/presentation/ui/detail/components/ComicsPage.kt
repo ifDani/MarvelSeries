@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -14,6 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.marvelseries.R
+import com.example.marvelseries.domain.model.ComicsResponse
 import com.example.marvelseries.presentation.ui.theme.nameHeroDetail
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.CoroutineScope
@@ -21,7 +23,7 @@ import kotlin.math.absoluteValue
 
 @ExperimentalPagerApi
 @Composable
-fun ComicsPage(coroutineScope: CoroutineScope, state: PagerState) {
+fun ComicsPage(coroutineScope: CoroutineScope, state: PagerState, comics: SnapshotStateList<ComicsResponse.Data.Result>) {
     val stateHorizontal = rememberPagerState()
     val coroutineScopeHorizontal = rememberCoroutineScope()
     Column(
@@ -60,13 +62,13 @@ fun ComicsPage(coroutineScope: CoroutineScope, state: PagerState) {
                 )
 
                 HorizontalPager(
-                    count = 6,
+                    count = comics.count(),
                     state = stateHorizontal,
                     contentPadding = PaddingValues(horizontal = 32.dp)
                 ) { page ->
 
                     //TODO: call list element index using currentPage
-                    ComicItem(image = "", name = "", page, calculateCurrentOffsetForPage(page).absoluteValue)
+                    ComicItem(comic = comics[page], calculateCurrentOffsetForPage(page).absoluteValue)
 
                 }
             }

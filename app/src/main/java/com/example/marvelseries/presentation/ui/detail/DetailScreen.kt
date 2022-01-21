@@ -30,7 +30,7 @@ fun DetailScreen(
             coroutineScope.launch {
                 state.animateScrollToPage(0)
             }
-        }else navController.navigateUp()
+        } else navController.navigateUp()
     }
 
     detailViewModel.heroDetail.value?.let {
@@ -38,7 +38,7 @@ fun DetailScreen(
 
             when (page) {
                 0 -> ContentPage(coroutineScope, state, heroDetail = it, series = detailViewModel.series)
-                1 -> ComicsPage(coroutineScope, state)
+                1 -> ComicsPage(coroutineScope, state, comics = detailViewModel.comics)
             }
 
         }
