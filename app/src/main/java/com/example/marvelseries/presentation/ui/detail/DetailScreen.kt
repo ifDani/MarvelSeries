@@ -33,11 +33,11 @@ fun DetailScreen(
         }else navController.navigateUp()
     }
 
-    detailViewModel.heroDetail?.value?.let {
+    detailViewModel.heroDetail.value?.let {
         VerticalPager(count = 2, state = state) { page ->
 
             when (page) {
-                0 -> ContentPage(coroutineScope, state, heroDetail = it)
+                0 -> ContentPage(coroutineScope, state, heroDetail = it, comics = detailViewModel.comics)
                 1 -> ComicsPage(coroutineScope, state)
             }
 

@@ -1,29 +1,28 @@
 package com.example.marvelseries.presentation.ui.detail.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
+import coil.transform.RoundedCornersTransformation
 import com.example.marvelseries.R
 import com.example.marvelseries.domain.model.CharacterDetailResponse
+import com.example.marvelseries.domain.model.ComicsResponse
 import com.example.marvelseries.presentation.ui.theme.descHeroDetail
 import com.example.marvelseries.presentation.ui.theme.nameHeroDetail
 import com.example.marvelseries.presentation.ui.theme.sectionHeroTitle
@@ -37,24 +36,26 @@ import kotlinx.coroutines.launch
 fun ContentPage(
     coroutineScope: CoroutineScope,
     state: PagerState,
-    heroDetail: CharacterDetailResponse.Data.Result
+    heroDetail: CharacterDetailResponse.Data.Result,
+    comics: SnapshotStateList<ComicsResponse.Data.Result>
 ) {
     val interactionSource2 = remember { MutableInteractionSource() }
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(
-            brush = Brush.verticalGradient(
-                colors = listOf(
-                    Color.Transparent,
-                    Color.Black.copy(alpha = 0.5f),
-                    Color.Black.copy(alpha = 0.8f),
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        Color.Transparent,
+                        Color.Black.copy(alpha = 0.5f),
+                        Color.Black.copy(alpha = 0.8f),
+                    )
                 )
             )
-        )
     ) {
         Image(
-            painter = rememberImagePainter(data = heroDetail.thumbnail.path+"."+heroDetail.thumbnail.extension),
+            painter = rememberImagePainter(data = heroDetail.thumbnail.path + "." + heroDetail.thumbnail.extension),
             contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize(),
             contentDescription = null
         )
@@ -82,11 +83,15 @@ fun ContentPage(
                     .fillMaxWidth()
                     .padding(bottom = 20.dp)
             )
-            Text(text = stringResource(R.string.description), style = sectionHeroTitle, modifier = Modifier.padding(bottom = 10.dp))
+            Text(
+                text = stringResource(R.string.description),
+                style = sectionHeroTitle,
+                modifier = Modifier.padding(bottom = 10.dp)
+            )
             Text( //I could hide the description field, but I put no description
                 text = if (heroDetail.description.isEmpty()) stringResource(R.string.no_desc) else heroDetail.description,
                 style = descHeroDetail(),
-                textAlign = TextAlign.Start,color= Color.White,
+                textAlign = TextAlign.Start, color = Color.White,
                 modifier = Modifier.padding(bottom = 20.dp)
             )
             Row(
@@ -95,20 +100,31 @@ fun ContentPage(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = stringResource(R.string.movies_series), style = sectionHeroTitle)
-                Text(text = stringResource(R.string.see_more), style = descHeroDetail(Color(0xFFCACACA)), modifier = Modifier
-                    .padding(vertical = 15.dp)
-                    .clickable {
-                        //TODO NAVIGATE TO THE MOVIES LIST
-                    })
+                Text(text = stringResource(R.string.see_more),
+                    style = descHeroDetail(Color(0xFFCACACA)),
+                    modifier = Modifier
+                        .padding(vertical = 15.dp)
+                        .clickable {
+                            //TODO NAVIGATE TO THE MOVIES LIST
+                        })
             }
 
-            LazyRow(
+            Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState())
             ) {
-                items(8) {
+                comics.forEach { item ->
                     Image(
-                        painter = painterResource(id = R.drawable.test),
+                        painter = rememberImagePainter(data = "${item.thumbnail.path}.${item.thumbnail.extension}",
+                            builder = {
+                                transformations(
+                                    RoundedCornersTransformation(20f)
+                                )
+                            }),
+
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .height(100.dp)
@@ -120,6 +136,31 @@ fun ContentPage(
                     )
                 }
             }
+//            LazyRow(
+//                verticalAlignment = Alignment.CenterVertically,
+//                horizontalArrangement = Arrangement.spacedBy(8.dp)
+//            ) {
+//
+//                itemsIndexed(items = comics) { index, item ->
+//                    Image(
+//                        painter = rememberImagePainter(data = "${item.thumbnail.path}.${item.thumbnail.extension}",
+//                            builder = {
+//                                transformations(
+//                                    RoundedCornersTransformation(20f)
+//                                )
+//                            }),
+//
+//                        contentScale = ContentScale.Crop,
+//                        modifier = Modifier
+//                            .height(100.dp)
+//                            .width(65.dp)
+//                            .clickable {
+//                                //TODO NAVIGATE TO THE MOVIES LIST
+//                            },
+//                        contentDescription = null
+//                    )
+//                }
+//            }
             Row(horizontalArrangement = Arrangement.Center, modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 10.dp)
