@@ -21,6 +21,7 @@ class CharactersViewModel @Inject constructor(private val repository: MarvelRepo
     val isLoading: MutableState<Boolean> = mutableStateOf(false)
     var characterList:SnapshotStateList<CharactersResponse.Data.Result> = mutableStateListOf()
     var offset = 20
+    var sortBy = arrayListOf("name","-name","-modified","modified")
     init {
         try {
             characterList.addAll(DataHolder.argument as ArrayList<CharactersResponse.Data.Result>)
@@ -30,16 +31,21 @@ class CharactersViewModel @Inject constructor(private val repository: MarvelRepo
         }
     }
 
-    //Called when pagination
-    fun getCharacters() {
+    fun getCharacters(clearData: Boolean = false, index: Int = 0) {
         isLoading.value = true
         viewModelScope.launch(Dispatchers.Main) {
-            repository.getCharacters(offset = offset).collect { result ->
+            repository.getCharacters(offset = offset, sortBy[index]).collect { result ->
+
                 when (result) {
                     is Resource.Success -> {
 
                         result.data?.let {
+                            if (clearData) {
+                                characterList.clear()
+                                offset = 20
+                            }
                             characterList.addAll(it)
+
                         }
 
                         isLoading.value = false

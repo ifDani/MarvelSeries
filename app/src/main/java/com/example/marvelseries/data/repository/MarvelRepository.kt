@@ -19,7 +19,7 @@ import javax.inject.Inject
 class MarvelRepository @Inject constructor(private val repository: MarvelApi) {
     var currentTimeStamp = ""
 
-    fun getCharacters(offset: Int = 0): Flow<Resource<ArrayList<CharactersResponse.Data.Result>>> =
+    fun getCharacters(offset: Int = 0, orderBy:String): Flow<Resource<ArrayList<CharactersResponse.Data.Result>>> =
         flow {
             try {
                 emit(Resource.Loading())
@@ -28,7 +28,8 @@ class MarvelRepository @Inject constructor(private val repository: MarvelApi) {
                     ts = currentTimeStamp,
                     apiKey = PUBLIC_API_KEY,
                     hash = hash,
-                    offset = offset
+                    offset = offset,
+                    orderBy = orderBy
                 )
                 //Emit response
 

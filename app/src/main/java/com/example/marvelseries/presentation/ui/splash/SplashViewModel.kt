@@ -30,7 +30,7 @@ class SplashViewModel @Inject constructor(private val repository: MarvelReposito
     fun getCharacters() {
 
         viewModelScope.launch(Dispatchers.Main) {
-            repository.getCharacters().collect { result ->
+            repository.getCharacters(orderBy = "name").collect { result ->
                 when (result) {
                     is Resource.Success -> {
 

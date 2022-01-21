@@ -15,6 +15,7 @@ interface MarvelApi {
         @Query("ts") ts: String,
         @Query("apikey") apiKey: String,
         @Query("hash") hash: String,
+        @Query("orderBy") orderBy: String = "name",
         @Query("offset") offset: Int = 0
     ): CharactersResponse
 
