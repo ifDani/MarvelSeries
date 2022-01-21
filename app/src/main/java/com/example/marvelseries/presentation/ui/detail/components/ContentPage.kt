@@ -18,9 +18,12 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberImagePainter
 import com.example.marvelseries.R
+import com.example.marvelseries.domain.model.CharacterDetailResponse
 import com.example.marvelseries.presentation.ui.theme.descHeroDetail
 import com.example.marvelseries.presentation.ui.theme.nameHeroDetail
 import com.example.marvelseries.presentation.ui.theme.sectionHeroTitle
@@ -31,28 +34,28 @@ import kotlinx.coroutines.launch
 
 @ExperimentalPagerApi
 @Composable
-fun ContentPage(coroutineScope: CoroutineScope, state: PagerState) {
+fun ContentPage(
+    coroutineScope: CoroutineScope,
+    state: PagerState,
+    heroDetail: CharacterDetailResponse.Data.Result
+) {
     val interactionSource2 = remember { MutableInteractionSource() }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color.Transparent,
-                        Color.Black.copy(alpha = 0.5f),
-                        Color.Black.copy(alpha = 0.8f),
-                    )
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(
+            brush = Brush.verticalGradient(
+                colors = listOf(
+                    Color.Transparent,
+                    Color.Black.copy(alpha = 0.5f),
+                    Color.Black.copy(alpha = 0.8f),
                 )
             )
+        )
     ) {
-
         Image(
-            painter = painterResource(id = R.drawable.test),
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxSize(),
+            painter = rememberImagePainter(data = heroDetail.thumbnail.path+"."+heroDetail.thumbnail.extension),
+            contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize(),
             contentDescription = null
         )
 
@@ -70,31 +73,33 @@ fun ContentPage(coroutineScope: CoroutineScope, state: PagerState) {
                 )
                 .padding(horizontal = 28.dp),
             verticalArrangement = Arrangement.Bottom,
-
-            ) {
+        ) {
             Text(
-                text = "SPIDER-MAN",
+                text = heroDetail.name,
                 style = nameHeroDetail,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 20.dp)
             )
-            Text(text = "Descripción", style = sectionHeroTitle, modifier = Modifier.padding(bottom = 10.dp))
-            Text(
-                text = "Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since.",
+            Text(text = stringResource(R.string.description), style = sectionHeroTitle, modifier = Modifier.padding(bottom = 10.dp))
+            Text( //I could hide the description field, but I put no description
+                text = if (heroDetail.description.isEmpty()) stringResource(R.string.no_desc) else heroDetail.description,
                 style = descHeroDetail(),
-                textAlign = TextAlign.Start,
+                textAlign = TextAlign.Start,color= Color.White,
                 modifier = Modifier.padding(bottom = 20.dp)
             )
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Bottom,
-                modifier = Modifier
-                    .fillMaxWidth()
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
             ) {
-
-                Text(text = "Pelis / Series", style = sectionHeroTitle, modifier = Modifier.padding(bottom = 15.dp))
-                Text(text = "Ver más", style = descHeroDetail(Color(0xFFCACACA)))
-
+                Text(text = stringResource(R.string.movies_series), style = sectionHeroTitle)
+                Text(text = stringResource(R.string.see_more), style = descHeroDetail(Color(0xFFCACACA)), modifier = Modifier
+                    .padding(vertical = 15.dp)
+                    .clickable {
+                        //TODO NAVIGATE TO THE MOVIES LIST
+                    })
             }
 
             LazyRow(
@@ -107,7 +112,10 @@ fun ContentPage(coroutineScope: CoroutineScope, state: PagerState) {
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .height(100.dp)
-                            .width(65.dp),
+                            .width(65.dp)
+                            .clickable {
+                                //TODO NAVIGATE TO THE MOVIES LIST
+                            },
                         contentDescription = null
                     )
                 }

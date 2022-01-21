@@ -2,9 +2,7 @@ package com.example.marvelseries.presentation.ui.detail
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,16 +20,13 @@ class DetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     val isLoading: MutableState<Boolean> = mutableStateOf(false)
-    var characterDetail: SnapshotStateList<CharacterDetailResponse.Data.Result> = mutableStateListOf()
-
-    var heroDetail: MutableState<CharacterDetailResponse.Data.Result>? = null
+    var heroDetail: MutableState<CharacterDetailResponse.Data.Result?> = mutableStateOf(null)
 
     private val id: Int = savedStateHandle.get("id") ?: 0
 
     init {
         try {
-//            getDetailHero()
-
+            getDetailHero()
         } catch (e: Exception) {
             Log.e("Error", "$e")
         }
@@ -45,9 +40,9 @@ class DetailViewModel @Inject constructor(
                     is Resource.Success -> {
 
                         result.data?.let {
-                            heroDetail?.value = it[0]
-                            Log.v("miapp","el detalle ${it[0].name}") //Esto si devuelve un dato
-                            Log.v("miapp","el detalle ${heroDetail?.value?.name}")//Esto no devuelve nada
+                            heroDetail.value = it[0]
+                            Log.e("miapp", "ContentPage: ${it[0]}")
+
 //                            characterDetail.addAll(it)
                         }
 

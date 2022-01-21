@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,7 +24,6 @@ import com.example.marvelseries.presentation.ui.splash.SplashScreen
 import com.example.marvelseries.presentation.ui.theme.MarvelSeriesTheme
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 
 //To enable dependency Injection in all hierarchy of the activity
@@ -38,15 +36,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             MarvelSeriesTheme {
                 ProvideWindowInsets {
-                    val systemUiController = rememberSystemUiController()
-
-
                     val navController = rememberNavController()
-                    val currentRoute =
-                        navController.currentBackStackEntryFlow.collectAsState(initial = navController.currentBackStackEntry)
 
                     //Parent Layout, vertical and horizontal size entire screen
-                    Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
+                    Surface(color = Color.Black, modifier = Modifier.fillMaxSize()) {
                         Navigation(navController = navController)
                     }
                 }

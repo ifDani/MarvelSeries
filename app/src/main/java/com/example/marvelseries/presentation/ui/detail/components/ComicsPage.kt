@@ -10,14 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.marvelseries.R
 import com.example.marvelseries.presentation.ui.theme.nameHeroDetail
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.pager.*
 import kotlinx.coroutines.CoroutineScope
+import kotlin.math.absoluteValue
 
 @ExperimentalPagerApi
 @Composable
@@ -52,9 +51,9 @@ fun ComicsPage(coroutineScope: CoroutineScope, state: PagerState) {
                     .fillMaxSize()
             ) {
                 Text(
-                    text = "COMICS", style = nameHeroDetail, modifier = Modifier
+                    text = stringResource(R.string.comics), style = nameHeroDetail, modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 70.dp)
+                        .padding(top = 70.dp, start = 32.dp)
                 )
 
                 HorizontalPager(
@@ -64,7 +63,7 @@ fun ComicsPage(coroutineScope: CoroutineScope, state: PagerState) {
                 ) { page ->
 
                     //TODO: call list element index using currentPage
-                    ComicItem(image = "", name = "")
+                    ComicItem(image = "", name = "", page, calculateCurrentOffsetForPage(page).absoluteValue)
 
                 }
             }
