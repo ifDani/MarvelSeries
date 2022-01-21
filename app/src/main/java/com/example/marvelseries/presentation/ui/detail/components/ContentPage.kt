@@ -4,8 +4,10 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -18,6 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import coil.transform.RoundedCornersTransformation
 import com.example.marvelseries.R
@@ -37,7 +40,9 @@ fun ContentPage(
     coroutineScope: CoroutineScope,
     state: PagerState,
     heroDetail: CharacterDetailResponse.Data.Result,
-    series: SnapshotStateList<SeriesResponse.Data.Result>
+    series: SnapshotStateList<SeriesResponse.Data.Result>,
+    id:Number,
+    navController: NavController
 ) {
     val interactionSource2 = remember { MutableInteractionSource() }
 
@@ -54,6 +59,7 @@ fun ContentPage(
                 )
             )
     ) {
+
         Image(
             painter = rememberImagePainter(data = heroDetail.thumbnail.path + "." + heroDetail.thumbnail.extension),
             contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize(),
@@ -100,12 +106,13 @@ fun ContentPage(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = stringResource(R.string.movies_series), style = sectionHeroTitle)
+
                     Text(text = stringResource(R.string.see_more),
                         style = descHeroDetail(Color(0xFFCACACA)),
                         modifier = Modifier
                             .padding(vertical = 15.dp)
-                            .clickable {
-                                //TODO NAVIGATE TO THE MOVIES LIST
+                            .clickable(interactionSource = interactionSource2, indication = null) {
+                                navController.navigate("series/$id")
                             })
                 }
             }
@@ -148,6 +155,9 @@ fun ContentPage(
                 Icon(Icons.Default.KeyboardArrowDown, contentDescription = null, tint = Color.White)
             }
         }
-
+        IconButton(onClick = { navController.navigateUp()}, modifier = Modifier.padding(top = 50.dp)) {
+            Icon(Icons.Default.ArrowBack, contentDescription = null, tint = Color.White, modifier = Modifier
+                .padding(10.dp))
+        }
     }
 }

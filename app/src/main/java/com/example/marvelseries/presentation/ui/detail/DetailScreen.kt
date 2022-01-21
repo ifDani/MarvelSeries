@@ -21,10 +21,6 @@ fun DetailScreen(
     val state = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 
-//    LaunchedEffect(key1 = true) {
-//        detailViewModel.getDetailHero()
-//    }
-
     BackHandler {
         if (state.currentPage == 1){
             coroutineScope.launch {
@@ -37,8 +33,8 @@ fun DetailScreen(
         VerticalPager(count = 2, state = state) { page ->
 
             when (page) {
-                0 -> ContentPage(coroutineScope, state, heroDetail = it, series = detailViewModel.series)
-                1 -> ComicsPage(coroutineScope, state, comics = detailViewModel.comics)
+                0 -> ContentPage(coroutineScope, state, heroDetail = it, series = detailViewModel.series, navController = navController, id = detailViewModel.id)
+                1 -> ComicsPage(comics = detailViewModel.comics)
             }
 
         }

@@ -28,7 +28,7 @@ class DetailViewModel @Inject constructor(
     var series: SnapshotStateList<SeriesResponse.Data.Result> = mutableStateListOf()
     var heroDetail: MutableState<CharacterDetailResponse.Data.Result?> = mutableStateOf(null)
 
-    private val id: Int = savedStateHandle.get("id") ?: 0
+    val id: Int = savedStateHandle.get("id") ?: 0
 
     init {
         try {

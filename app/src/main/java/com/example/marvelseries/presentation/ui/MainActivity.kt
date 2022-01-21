@@ -20,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.marvelseries.presentation.ui.characters.CharactersScreen
 import com.example.marvelseries.presentation.ui.detail.DetailScreen
+import com.example.marvelseries.presentation.ui.series.SeriesScreen
 import com.example.marvelseries.presentation.ui.splash.SplashScreen
 import com.example.marvelseries.presentation.ui.theme.MarvelSeriesTheme
 import com.google.accompanist.insets.ProvideWindowInsets
@@ -77,6 +78,15 @@ fun Navigation(navController: NavHostController) {
 
             DetailScreen(navController = navController)
         }
+        composable("series/{id}",
+            arguments = listOf(
+                navArgument("id") {
+                    type = NavType.IntType
+                }
+            )) {
+            SeriesScreen(navController = navController)
+        }
+
     }
 }
 

@@ -17,13 +17,15 @@ import androidx.compose.ui.unit.dp
 import com.example.marvelseries.R
 import com.example.marvelseries.domain.model.ComicsResponse
 import com.example.marvelseries.presentation.ui.theme.nameHeroDetail
-import com.google.accompanist.pager.*
-import kotlinx.coroutines.CoroutineScope
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.calculateCurrentOffsetForPage
+import com.google.accompanist.pager.rememberPagerState
 import kotlin.math.absoluteValue
 
 @ExperimentalPagerApi
 @Composable
-fun ComicsPage(coroutineScope: CoroutineScope, state: PagerState, comics: SnapshotStateList<ComicsResponse.Data.Result>) {
+fun ComicsPage(comics: SnapshotStateList<ComicsResponse.Data.Result>) {
     val stateHorizontal = rememberPagerState()
     val coroutineScopeHorizontal = rememberCoroutineScope()
     Column(
