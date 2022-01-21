@@ -22,7 +22,7 @@ import coil.compose.rememberImagePainter
 import coil.transform.RoundedCornersTransformation
 import com.example.marvelseries.R
 import com.example.marvelseries.domain.model.CharacterDetailResponse
-import com.example.marvelseries.domain.model.ComicsResponse
+import com.example.marvelseries.domain.model.SeriesResponse
 import com.example.marvelseries.presentation.ui.theme.descHeroDetail
 import com.example.marvelseries.presentation.ui.theme.nameHeroDetail
 import com.example.marvelseries.presentation.ui.theme.sectionHeroTitle
@@ -37,7 +37,7 @@ fun ContentPage(
     coroutineScope: CoroutineScope,
     state: PagerState,
     heroDetail: CharacterDetailResponse.Data.Result,
-    comics: SnapshotStateList<ComicsResponse.Data.Result>
+    series: SnapshotStateList<SeriesResponse.Data.Result>
 ) {
     val interactionSource2 = remember { MutableInteractionSource() }
 
@@ -111,12 +111,12 @@ fun ContentPage(
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalScroll(rememberScrollState())
             ) {
-                comics.forEach { item ->
+                series.forEach { item ->
                     Image(
                         painter = rememberImagePainter(data = "${item.thumbnail.path}.${item.thumbnail.extension}",
                             builder = {
@@ -129,6 +129,7 @@ fun ContentPage(
                         modifier = Modifier
                             .height(100.dp)
                             .width(65.dp)
+                            .padding(start = 8.dp)
                             .clickable {
                                 //TODO NAVIGATE TO THE MOVIES LIST
                             },
@@ -136,31 +137,7 @@ fun ContentPage(
                     )
                 }
             }
-//            LazyRow(
-//                verticalAlignment = Alignment.CenterVertically,
-//                horizontalArrangement = Arrangement.spacedBy(8.dp)
-//            ) {
-//
-//                itemsIndexed(items = comics) { index, item ->
-//                    Image(
-//                        painter = rememberImagePainter(data = "${item.thumbnail.path}.${item.thumbnail.extension}",
-//                            builder = {
-//                                transformations(
-//                                    RoundedCornersTransformation(20f)
-//                                )
-//                            }),
-//
-//                        contentScale = ContentScale.Crop,
-//                        modifier = Modifier
-//                            .height(100.dp)
-//                            .width(65.dp)
-//                            .clickable {
-//                                //TODO NAVIGATE TO THE MOVIES LIST
-//                            },
-//                        contentDescription = null
-//                    )
-//                }
-//            }
+
             Row(horizontalArrangement = Arrangement.Center, modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 10.dp)

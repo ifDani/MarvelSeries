@@ -37,7 +37,7 @@ fun DetailScreen(
         VerticalPager(count = 2, state = state) { page ->
 
             when (page) {
-                0 -> ContentPage(coroutineScope, state, heroDetail = it, comics = detailViewModel.comics)
+                0 -> ContentPage(coroutineScope, state, heroDetail = it, series = detailViewModel.series)
                 1 -> ComicsPage(coroutineScope, state)
             }
 
